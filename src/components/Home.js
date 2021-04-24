@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 export default function Home({ URL }) {
     // Luodaan muutujat
+
     const [games, setGames] = useState([]);
     const [newGameName, setNewGameName] = useState('');
     const [newGM, setNewGM] = useState('');
@@ -16,10 +17,8 @@ export default function Home({ URL }) {
     const [charUpdated, setCharUpdated] = useState('');
     const [playerUpdated, setPlayerUpdated] = useState('');
     const [charstatus, setCharstatus] = useState([]);
-    const [addStatus, setAddStatus] = useState(null);
-    const [statusName, setStatusName] = useState('');
     const [createDate, setCreateDate] = useState('');
-    const [newstatus, setNewStatus] = useState('');
+    const [newstatus, setNewStatus] = useState('Elossa');
     const [editStatus, setEditStatus] = useState(null);
     const [editedDate, setEditedDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -44,12 +43,12 @@ export default function Home({ URL }) {
                     alert(error);
                 }
             )
-    }, [newGameName, newGM])
+    }, [URL, newGameName, newGM])
 
     // Tallennetaan uusi peli
     function saveNewGame(e) {
         if (newGameName === '' || newGM === '') {
-            alert('Syötä uuden pelin nimi ja pelinjohtaja');
+            alert('Syötä uuden pelin nimi ja pelinjohtaja!');
             return;
         }
         e.preventDefault();
@@ -73,8 +72,10 @@ export default function Home({ URL }) {
                 (res) => {
                     if (status === 200) {
                         setGames(newGame => [...newGame, res]);
+                        Characters(res.pelinro)
                         setNewGameName('');
                         setNewGM('');
+
                     } else {
                         alert(res.error);
                     }
@@ -82,7 +83,6 @@ export default function Home({ URL }) {
                     alert(error)
                 }
             )
-
     }
 
     // poistetaan peli taulusta peli
@@ -179,12 +179,12 @@ export default function Home({ URL }) {
             )
     }
 
-    // lisätään uusi hahmo tiettyyn peliin
+    // lisätään uusi hahmo tiettyyn peliin ja funktion sisällä tehdään myös lisäys kyseisen hahmon statukseen
     function saveNewCharacter(e) {
         e.preventDefault();
 
-        if (newCharName === '' || newPlayerName === '') {
-            alert('Lisää hahmon ja pelaajan nimet!');
+        if (newCharName === '' || newPlayerName === '' || createDate === '') {
+            alert('Lisää hahmon ja pelaajan nimet, sekä valitse luontipäivä!');
             return;
         } else if (newGameNbr === null) {
             alert('Valitse peli!');
@@ -212,6 +212,7 @@ export default function Home({ URL }) {
             .then(
                 (res) => {
                     if (status === 200) {
+                        saveStatus(res.hahmonro)
                         setCharacters(newCharacter => [...newCharacter, res]);
                         setNewPlayerName('');
                         setNewCharName('');
@@ -224,8 +225,9 @@ export default function Home({ URL }) {
                 }
             )
     }
-    // Poistetaan hahmo
+    // Poistetaan hahmo ja funktion alussa poistetaan myös hahm,oon liittyvä status
     function deleteCharacter(hahmonro) {
+        deleteStatus(hahmonro);
         let status = 0;
         fetch(URL + 'delete_character.php', {
             method: 'POST',
@@ -246,6 +248,7 @@ export default function Home({ URL }) {
                     if (status === 200) {
                         const charWithoutRemoved = characters.filter((char) => char.hahmonro !== hahmonro);
                         setCharacters(charWithoutRemoved);
+                        Status(hahmonro);
                     } else {
                         alert(res.error)
                     }
@@ -294,7 +297,7 @@ export default function Home({ URL }) {
                 }
             )
     }
-    // Haetaan hahmoon liittyvä satus esille
+    // Haetaan hahmoon liittyvä status esille
     function Status(hahmonro) {
         let status = 0;
         fetch(URL + 'status.php?hahmonro=' + hahmonro)
@@ -316,19 +319,8 @@ export default function Home({ URL }) {
             )
     }
 
-    // Avataan statuksen lisäyksen inputit
-    function AddStatus(character) {
-            setStatusName(character.hahmon_nimi);
-            setCharstatus([]);
-            setAddStatus(character);
-     }
-
      // Tallennetaan uusi, lisätty status
      function saveStatus (hahmonro) {
-        if (createDate === '' || newstatus === '') {
-            alert('Lisää päivänmäärä ja status!');
-            return;
-        }
         let status = 0;
         fetch(URL + 'new_status.php', {
             method: 'POST',
@@ -340,7 +332,7 @@ export default function Home({ URL }) {
                 luontipvm: createDate,
                 hahmonro: hahmonro,
                 tila: newstatus,
-                hahmon_nimi: statusName 
+                hahmon_nimi: newCharName 
             })
         })
             .then(res => {
@@ -352,9 +344,7 @@ export default function Home({ URL }) {
                     if (status === 200) {
                         setCharstatus(newCharstatus=> [...newCharstatus, res]);
                         setCreateDate('');
-                        setNewStatus('');
-                        setStatusName('');
-                        setAddStatus(null);
+                        Status(hahmonro);
                         } else {
                         alert(res.error);
                     }
@@ -364,7 +354,7 @@ export default function Home({ URL }) {
             )
      }
     
-     // Poistetaan hahmon statu
+     // Poistetaan hahmon status. Poito tapahtuu hahmon poiston yhteydessä.
      function deleteStatus(hahmonro) {
         let status = 0;
         fetch(URL + 'delete_status.php', {
@@ -408,9 +398,10 @@ export default function Home({ URL }) {
         if (updateStatus === 'Kuollut' && endDate === null){
             alert('Valitse hahmon kuolinpäivä.')
             return;
+        } else if (endDate !== null && updateStatus === 'Elossa') {
+            alert('Muuta hahmon status kuolleeksi')
+            return;
         }
-        
-        
         let status = 0;
         fetch(URL + 'update_status.php', {
             method: 'POST',
@@ -435,6 +426,7 @@ export default function Home({ URL }) {
                         charstatus[(charstatus.findIndex(status => status.hahmonro === hahmonro))].luontipvm = editedDate;
                         charstatus[(charstatus.findIndex(status => status.hahmonro === hahmonro))].kuolinpvm = endDate;
                         charstatus[(charstatus.findIndex(status => status.hahmonro === hahmonro))].tila = updateStatus;
+                        setNewStatus('Elossa');
                         setEditStatus(null);
                     } else {
                         alert(res.error);
@@ -444,14 +436,19 @@ export default function Home({ URL }) {
                 }
             )
     }
-    console.log(endDate);
-
     return (
         <div className="row">
-            <h1>Pelauksessa olevat roolipelit:</h1>
+            <h1>Peliporukan roolipelit:</h1>
+            <div>
+                <p>Tällä sivustolla näet mitä roolipelejä peliporukalla on pelauksessa, sekä mitä hahmoja eri peleillä on ja mikä on hahmojen status. Voit lisäksi lisätä uusia pelejä ja hahmoja, sekä muokata niitä sekä hahmojen statusta. </p> 
+            </div>
             <div className="col-xl-3">
+               
                 <div className="col-auto mt-2">
                     <h5 className="mt-2">Lisää uusi peli:</h5>
+                    <p> Voit lisätä uusia pelejä sekä muokata pelien nimiä ja niille asetettua pelinjohtajaa. Pelejä voi myöskin poistaa, jos niille ei ole lisätty yhtään pelaajahahmoa.
+                        Klikkaamalla Hahmot-nappia, näet mitä pelaajahahmoja on kyseiselle pelille lisätty ja ketkä niitä pelaavat.
+                    </p>
                     <input id="uusiNimi" type="text" maxLength='30' className="form-control m-2" aria-describedby="uusiNimi" placeholder="Syötä uuden pelin nimi" value={newGameName} onChange={e => setNewGameName(e.target.value)} />
                     <input id="uusiPJ" type="text" maxLength='30' className="form-control m-2" aria-describedby="UusiPJ" placeholder="Syötä uuden pelin pelinjohtaja" value={newGM} onChange={e => setNewGM(e.target.value)} />
                     <span className="p-2"><button onClick={saveNewGame} className="btn btn-primary mt-2">Tallenna</button></span>
@@ -494,9 +491,13 @@ export default function Home({ URL }) {
 
             <div className="col-xl-4 mt-2">
                 <h5>Lisää uusi hahmo: </h5>
+                <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan.</p>
                 <form action="submit" onSubmit={saveNewCharacter}>
                     <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
                     <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)}/>
+                    <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
+                    <div className="input-group">
+                    </div>
                     <div className="input-group">
                         <select className="form-control mt-2" id="inputGroupSelect01" onChange={e => setNewGameNbr(e.target.value)}>
                             <label htmlFor="peli">Peli: </label>
@@ -520,7 +521,6 @@ export default function Home({ URL }) {
                                 <td>{character.pelaaja_nimi}</td>
                                 <td><button onClick={() => editCharacter(character)} className="btn btn-primary">Muokkaa</button></td>
                                 <td><button onClick={() => deleteCharacter(character.hahmonro)} className="btn btn-primary">Poista</button></td>
-                                <td><button onClick={() => AddStatus(character)} className="btn btn-primary">Lisää status</button></td>
                                 <td><button onClick={() => Status(character.hahmonro)} className="btn btn-primary">Näytä status</button></td>
                             </tr>
                         ))}
@@ -540,28 +540,11 @@ export default function Home({ URL }) {
                 )
                 }
 
-                {addStatus != null ? (
-                    <>  
-                        <h5>Lisää uuden hahmon status:</h5>
-                        <input type="date" className="form-control m-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
-                        <input type="text" className="form-control m-2" aria-describedby="statusnimi" value={statusName} hidden/>
-                        <div className="input-group">
-                        <select className="form-control m-2" id="inputGroupSelect03" onChange={e => setNewStatus(e.target.value)}>
-                            <option selected>Vaihda hahmon status</option>
-                            <option value="Elossa" >Elossa</option>
-                        </select>
-                    </div>
-                        <span className="p-2"><button onClick={() => saveStatus(addStatus.hahmonro)} className="btn btn-primary">Tallenna</button></span>
-                        <button onClick={() => setAddStatus(null)} className="btn btn-primary">Peruuta</button>
-                    </>
-                ) : (
-                    <></>
-                )
-                }
-
             </div>
             <div className="col-xl-4 mt-2">
                 <div className="col-auto mt-2">
+                    <h5>Hahmon status:</h5>
+                    <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
                     <table className="table">
                         <thead>
                             <th scope="col">Hahmon nimi:</th>
@@ -576,7 +559,6 @@ export default function Home({ URL }) {
                                     <td>{charstatus.luontipvm}</td>
                                     <td>{charstatus.tila}</td>
                                     <td>{charstatus.kuolinpvm}</td>
-                                    <td><button onClick={() => deleteStatus(charstatus.hahmonro)} className="btn btn-primary">Poista</button></td>
                                     <td><button onClick={() => EditStat(charstatus)} className="btn btn-primary">Muokkaa</button></td>
                                 </tr>
                             ))}
@@ -590,7 +572,7 @@ export default function Home({ URL }) {
                         <input type="date" className="form-control m-2" aria-describedby="kuolinpvm" value={endDate} onChange={e => setEndDate(e.target.value)} />
                         <div className="input-group">
                         <select className="form-control m-2" id="inputGroupSelect03" onChange={e => setUpdateStatus(e.target.value)}>
-                            <option value="Elossa" selected>Valitse hahmon status</option>
+                            <option value="Elossa" selected>Vaihda hahmon status</option>
                             <option value="Kuollut" >Kuollut</option>
                         </select>
                     </div>
