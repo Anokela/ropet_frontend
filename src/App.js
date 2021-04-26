@@ -2,7 +2,7 @@
 import './App.css';
 import Home from './components/Home.js'
 
-const URL = 'http://localhost/Ropet/';
+const URL = 'http://localhost/ropet_backend/';
 
 function App() {
   return (

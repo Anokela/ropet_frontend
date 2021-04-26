@@ -447,7 +447,6 @@ export default function Home({ URL }) {
                 <p>Tällä sivustolla näet mitä roolipelejä peliporukalla on pelauksessa, sekä mitä hahmoja eri peleillä on ja mikä on hahmojen status. Voit lisäksi lisätä uusia pelejä ja hahmoja, sekä muokata niitä sekä hahmojen statusta. </p>
             </div>
             <div className="col-lg-12 col-xl-6">
-
                 <div className="col-auto mt-2">
                     <h5 className="mt-2">Lisää uusi peli:</h5>
                     <p> Voit lisätä uusia pelejä sekä muokata pelien nimiä ja niille asetettua pelinjohtajaa. Pelejä voi myöskin poistaa, jos niille ei ole lisätty yhtään pelaajahahmoa.
