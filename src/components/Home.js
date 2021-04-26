@@ -446,7 +446,7 @@ export default function Home({ URL }) {
             <div>
                 <p>Tällä sivustolla näet mitä roolipelejä peliporukalla on pelauksessa, sekä mitä hahmoja eri peleillä on ja mikä on hahmojen status. Voit lisäksi lisätä uusia pelejä ja hahmoja, sekä muokata niitä sekä hahmojen statusta. </p> 
             </div>
-            <div className="col-xl-3">
+            <div className="col-lg-12 col-xl-5">
                
                 <div className="col-auto mt-2">
                     <h5 className="mt-2">Lisää uusi peli:</h5>
@@ -493,7 +493,7 @@ export default function Home({ URL }) {
             </div>
 
 
-            <div className="col-xl-4 mt-2">
+            <div className="col-lg-12 col-xl-4 mt-2">
                 <h5>Lisää uusi hahmo: </h5>
                 <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
                 <form action="submit" onSubmit={saveNewCharacter}>
@@ -545,7 +545,7 @@ export default function Home({ URL }) {
                 }
 
             </div>
-            <div className="col-xl-4 mt-2">
+            <div className="col-lg-12 col-xl-3 mt-2">
                 <div className="col-auto mt-2">
                     <h5>Hahmon status:</h5>
                     <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
