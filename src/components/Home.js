@@ -108,7 +108,11 @@ export default function Home({ URL }) {
                         const gamesWithoutRemoved = games.filter((game) => game.pelinro !== id);
                         setGames(gamesWithoutRemoved);
                     } else {
-                        alert(res.error)
+                        if (res.error === 'SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`roolipelit`.`hahmo`, CONSTRAINT `hahmo_fk` FOREIGN KEY (`pelinro`) REFERENCES `peli` (`pelinro`))') {
+                            alert('Et voi poistaa peliä, jolla on pelaajahahmoja!')
+                        } else {
+                            alert(res.error)
+                        }
                     }
                 }, (error) => {
                     alert(error)
@@ -491,7 +495,7 @@ export default function Home({ URL }) {
 
             <div className="col-xl-4 mt-2">
                 <h5>Lisää uusi hahmo: </h5>
-                <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan.</p>
+                <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
                 <form action="submit" onSubmit={saveNewCharacter}>
                     <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
                     <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)}/>
