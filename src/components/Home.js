@@ -56,7 +56,7 @@ export default function Home({ URL }) {
         fetch(URL + 'new_game.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -91,7 +91,7 @@ export default function Home({ URL }) {
         fetch(URL + 'delete_game.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -132,7 +132,7 @@ export default function Home({ URL }) {
         fetch(URL + 'update_game.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -200,7 +200,7 @@ export default function Home({ URL }) {
         fetch(URL + 'new_character.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -236,7 +236,7 @@ export default function Home({ URL }) {
         fetch(URL + 'delete_character.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -273,7 +273,7 @@ export default function Home({ URL }) {
         fetch(URL + 'update_character.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -329,7 +329,7 @@ export default function Home({ URL }) {
         fetch(URL + 'new_status.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -364,7 +364,7 @@ export default function Home({ URL }) {
         fetch(URL + 'delete_status.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
@@ -410,7 +410,7 @@ export default function Home({ URL }) {
         fetch(URL + 'update_status.php', {
             method: 'POST',
             headers: {
-                'Accept': 'application.json',
+                'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
