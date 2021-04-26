@@ -323,8 +323,8 @@ export default function Home({ URL }) {
             )
     }
 
-     // Tallennetaan uusi, lisätty status
-     function saveStatus (hahmonro) {
+    // Tallennetaan uusi, lisätty status
+    function saveStatus(hahmonro) {
         let status = 0;
         fetch(URL + 'new_status.php', {
             method: 'POST',
@@ -336,7 +336,7 @@ export default function Home({ URL }) {
                 luontipvm: createDate,
                 hahmonro: hahmonro,
                 tila: newstatus,
-                hahmon_nimi: newCharName 
+                hahmon_nimi: newCharName
             })
         })
             .then(res => {
@@ -346,20 +346,20 @@ export default function Home({ URL }) {
             .then(
                 (res) => {
                     if (status === 200) {
-                        setCharstatus(newCharstatus=> [...newCharstatus, res]);
+                        setCharstatus(newCharstatus => [...newCharstatus, res]);
                         setCreateDate('');
                         Status(hahmonro);
-                        } else {
+                    } else {
                         alert(res.error);
                     }
                 }, (error) => {
                     alert(error);
                 }
             )
-     }
-    
-     // Poistetaan hahmon status. Poito tapahtuu hahmon poiston yhteydessä.
-     function deleteStatus(hahmonro) {
+    }
+
+    // Poistetaan hahmon status. Poito tapahtuu hahmon poiston yhteydessä.
+    function deleteStatus(hahmonro) {
         let status = 0;
         fetch(URL + 'delete_status.php', {
             method: 'POST',
@@ -395,11 +395,11 @@ export default function Home({ URL }) {
         setEditedDate(charstatus.luontipvm);
         setUpdateStatus(charstatus.tila);
         setEndDate(charstatus.kuolinpvm);
-        
+
     }
     // Tallennetaan muokattu status
     function SaveStatusUpdate(hahmonro) {
-        if (updateStatus === 'Kuollut' && endDate === null){
+        if (updateStatus === 'Kuollut' && endDate === null) {
             alert('Valitse hahmon kuolinpäivä.')
             return;
         } else if (endDate !== null && updateStatus === 'Elossa') {
@@ -414,10 +414,10 @@ export default function Home({ URL }) {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify({
-                luontipvm: editedDate, 
-                kuolinpvm:endDate,
+                luontipvm: editedDate,
+                kuolinpvm: endDate,
                 hahmonro: hahmonro,
-                tila:updateStatus
+                tila: updateStatus
             })
         })
             .then(res => {
@@ -444,14 +444,14 @@ export default function Home({ URL }) {
         <div className="row">
             <h1>Peliporukan roolipelit:</h1>
             <div>
-                <p>Tällä sivustolla näet mitä roolipelejä peliporukalla on pelauksessa, sekä mitä hahmoja eri peleillä on ja mikä on hahmojen status. Voit lisäksi lisätä uusia pelejä ja hahmoja, sekä muokata niitä sekä hahmojen statusta. </p> 
+                <p>Tällä sivustolla näet mitä roolipelejä peliporukalla on pelauksessa, sekä mitä hahmoja eri peleillä on ja mikä on hahmojen status. Voit lisäksi lisätä uusia pelejä ja hahmoja, sekä muokata niitä sekä hahmojen statusta. </p>
             </div>
-            <div className="col-lg-12 col-xl-5">
-               
+            <div className="col-lg-12 col-xl-6">
+
                 <div className="col-auto mt-2">
                     <h5 className="mt-2">Lisää uusi peli:</h5>
                     <p> Voit lisätä uusia pelejä sekä muokata pelien nimiä ja niille asetettua pelinjohtajaa. Pelejä voi myöskin poistaa, jos niille ei ole lisätty yhtään pelaajahahmoa.
-                        Klikkaamalla Hahmot-nappia, näet mitä pelaajahahmoja on kyseiselle pelille lisätty ja ketkä niitä pelaavat.
+                    Klikkaamalla Hahmot-nappia, näet mitä pelaajahahmoja on kyseiselle pelille lisätty ja ketkä niitä pelaavat.
                     </p>
                     <input id="uusiNimi" type="text" maxLength='30' className="form-control m-2" aria-describedby="uusiNimi" placeholder="Syötä uuden pelin nimi" value={newGameName} onChange={e => setNewGameName(e.target.value)} />
                     <input id="uusiPJ" type="text" maxLength='30' className="form-control m-2" aria-describedby="UusiPJ" placeholder="Syötä uuden pelin pelinjohtaja" value={newGM} onChange={e => setNewGM(e.target.value)} />
@@ -490,15 +490,11 @@ export default function Home({ URL }) {
                     <></>
                 )
                 }
-            </div>
-
-
-            <div className="col-lg-12 col-xl-4 mt-2">
-                <h5>Lisää uusi hahmo: </h5>
+                <h5 className="mt-2">Lisää uusi hahmo: </h5>
                 <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
                 <form action="submit" onSubmit={saveNewCharacter}>
                     <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
-                    <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)}/>
+                    <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
                     <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
                     <div className="input-group">
                     </div>
@@ -513,6 +509,11 @@ export default function Home({ URL }) {
                     </div>
                     <button className="btn btn-primary m-2">Lisää</button>
                 </form>
+            </div>
+
+
+            <div className="col-lg-12 col-xl-6 mt-2">
+                
                 <table className="table">
                     <thead>
                         <th scope="col">Hahmon nimi</th>
@@ -532,7 +533,7 @@ export default function Home({ URL }) {
                 </table>
 
                 {charEdited != null ? (
-                    <>  
+                    <>
                         <h5>Muokkaa Hahmoa:</h5>
                         <input type="text" className="form-control m-2" aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
                         <input type="text" className="form-control m-2" aria-describedby="uuspelajanimi" value={playerUpdated} onChange={e => setPlayerUpdated(e.target.value)} />
@@ -544,9 +545,7 @@ export default function Home({ URL }) {
                 )
                 }
 
-            </div>
-            <div className="col-lg-12 col-xl-3 mt-2">
-                <div className="col-auto mt-2">
+                <div className="mt-2 mb-2">
                     <h5>Hahmon status:</h5>
                     <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
                     <table className="table">
@@ -568,25 +567,28 @@ export default function Home({ URL }) {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div >
                 {editStatus != null ? (
-                    <>  
-                        <h5>Muokkaa hahmon statusta:</h5>
-                        <input type="date" className="form-control m-2" aria-describedby="uusipvm" value={editedDate} onChange={e => setEditedDate(e.target.value)} />
-                        <input type="date" className="form-control m-2" aria-describedby="kuolinpvm" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                        <div className="input-group">
-                        <select className="form-control m-2" id="inputGroupSelect03" onChange={e => setUpdateStatus(e.target.value)}>
-                            <option value="Elossa" selected>Vaihda hahmon status</option>
-                            <option value="Kuollut" >Kuollut</option>
-                        </select>
-                    </div>
-                        <span className="p-2"><button onClick={() => SaveStatusUpdate(editStatus.hahmonro)} className="btn btn-primary">Tallenna</button></span>
-                        <button onClick={() => setEditStatus(null)} className="btn btn-primary">Sulje muokkaamatta</button>
+                    <>
+                        <div className="mb-2" >
+                            <h5>Muokkaa hahmon statusta:</h5>
+                            <input type="date" className="form-control m-2" aria-describedby="uusipvm" value={editedDate} onChange={e => setEditedDate(e.target.value)} />
+                            <input type="date" className="form-control m-2" aria-describedby="kuolinpvm" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                            <div className="input-group">
+                                <select className="form-control m-2" id="inputGroupSelect03" onChange={e => setUpdateStatus(e.target.value)}>
+                                    <option value="Elossa" selected>Vaihda hahmon status</option>
+                                    <option value="Kuollut" >Kuollut</option>
+                                </select>
+                            </div>
+                            <span className="p-2"><button onClick={() => SaveStatusUpdate(editStatus.hahmonro)} className="btn btn-primary">Tallenna</button></span>
+                            <button onClick={() => setEditStatus(null)} className="btn btn-primary">Sulje muokkaamatta</button>
+                        </div>
                     </>
                 ) : (
                     <></>
                 )
                 }
+
             </div>
         </div>
 
