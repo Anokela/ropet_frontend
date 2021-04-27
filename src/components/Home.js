@@ -517,7 +517,7 @@ export default function Home({ URL }) {
 
                 {characters != '' ? (
                     <>
-                        <table className="table">
+                        <table className="table mt-3">
 
                             <thead>
                                 <th scope="col">Hahmon nimi</th>
