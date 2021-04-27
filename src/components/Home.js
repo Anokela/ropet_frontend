@@ -502,7 +502,7 @@ export default function Home({ URL }) {
                     </table>
                 </div>
 
-                {gameEdited != null ? (
+                {gameEdited !== null ? (
                     <>
                         <h5>Muokkaa Peliä:</h5>
                         <input type="text" className="form-control m-2" maxLength='100' aria-describedby="pelinimi" value={gameNameUptd} onChange={e => setGameNameUptd(e.target.value)} />
@@ -515,7 +515,7 @@ export default function Home({ URL }) {
                 )
                 }
 
-                {characters != '' ? (
+                {characters !== '' ? (
                     <>
                         <table className="table mt-3">
 
@@ -542,7 +542,7 @@ export default function Home({ URL }) {
                 )
                 }
 
-                {characters != '' ? (
+                {characters !== '' ? (
                     <>
                         <button className="btn btn-secondary" onClick={() => setCharacters([])}>Sulje lista</button>
                     </>
@@ -551,7 +551,7 @@ export default function Home({ URL }) {
                 )
                 }
 
-                {charEdited != null ? (
+                {charEdited !== null ? (
                     <>
                         <h5>Muokkaa Hahmoa:</h5>
                         <input type="text" className="form-control m-2" maxLength='100' aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
@@ -565,7 +565,7 @@ export default function Home({ URL }) {
                 }
 
                 <div className="mt-2 mb-2">
-                    {characters != '' ? (
+                    {characters !== '' ? (
                         <>
                             <h5>Hahmon status:</h5>
                             <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
@@ -595,7 +595,7 @@ export default function Home({ URL }) {
                     }
 
                 </div >
-                {editStatus != null ? (
+                {editStatus !== null ? (
                     <>
                         <div className="mb-2" >
                             <h5>Muokkaa hahmon statusta:</h5>
