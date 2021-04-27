@@ -459,28 +459,28 @@ export default function Home({ URL }) {
                     </div>
                     <div className="col-md-6 mb-3">
                         <h5 className="mt-2">Lisää uusi hahmo: </h5>
-                    <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
+                        <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
                         <form action="submit" onSubmit={saveNewCharacter}>
-                        <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
-                        <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
-                        <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
-                        <div className="input-group">
-                        </div>
-                        <div className="input-group">
-                            <select className="form-control mt-2" id="inputGroupSelect01" onChange={e => setNewGameNbr(e.target.value)}>
-                                <label htmlFor="peli">Peli: </label>
-                                <option selected>Valitse Peli</option>
-                                {games.map(game => (
-                                    <option value={game.pelinro}>{game.pelin_nimi}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <button className="btn btn-secondary m-2">Lisää</button>
+                            <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
+                            <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
+                            <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
+                            <div className="input-group">
+                            </div>
+                            <div className="input-group">
+                                <select className="form-control mt-2" id="inputGroupSelect01" onChange={e => setNewGameNbr(e.target.value)}>
+                                    <label htmlFor="peli">Peli: </label>
+                                    <option selected>Valitse Peli</option>
+                                    {games.map(game => (
+                                        <option value={game.pelinro}>{game.pelin_nimi}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button className="btn btn-secondary m-2">Lisää</button>
                         </form>
                     </div>
 
                 </div>
-                
+
                 <div className="col-auto mt-2">
 
                     <table className="table">
@@ -516,27 +516,27 @@ export default function Home({ URL }) {
                 }
 
                 {characters != '' ? (
-                 <>
-                <table className="table">
+                    <>
+                        <table className="table">
 
-                    <thead>
-                        <th scope="col">Hahmon nimi</th>
-                        <th scope="col">Pelaajan nimi</th>
-                    </thead>
-                    <tbody>
-                        {characters.map(character => (
-                            <tr>
-                                <td>{character.hahmon_nimi}</td>
-                                <td>{character.pelaaja_nimi}</td>
-                                <td><button onClick={() => editCharacter(character)} className="btn btn-secondary">Muokkaa</button></td>
-                                <td><button onClick={() => deleteCharacter(character.hahmonro)} className="btn btn-secondary">Poista</button></td>
-                                <td><button onClick={() => Status(character.hahmonro)} className="btn btn-secondary">Näytä status</button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                            <thead>
+                                <th scope="col">Hahmon nimi</th>
+                                <th scope="col">Pelaajan nimi</th>
+                            </thead>
+                            <tbody>
+                                {characters.map(character => (
+                                    <tr>
+                                        <td>{character.hahmon_nimi}</td>
+                                        <td>{character.pelaaja_nimi}</td>
+                                        <td><button onClick={() => editCharacter(character)} className="btn btn-secondary">Muokkaa</button></td>
+                                        <td><button onClick={() => deleteCharacter(character.hahmonro)} className="btn btn-secondary">Poista</button></td>
+                                        <td><button onClick={() => Status(character.hahmonro)} className="btn btn-secondary">Näytä status</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
-                </>
+                    </>
                 ) : (
                     <></>
                 )
@@ -546,11 +546,11 @@ export default function Home({ URL }) {
                     <>
                         <button className="btn btn-secondary" onClick={() => setCharacters([])}>Sulje lista</button>
                     </>
-                    ) : (
-                        <></>
-                    )
-                    }
-                            
+                ) : (
+                    <></>
+                )
+                }
+
                 {charEdited != null ? (
                     <>
                         <h5>Muokkaa Hahmoa:</h5>
@@ -565,8 +565,8 @@ export default function Home({ URL }) {
                 }
 
                 <div className="mt-2 mb-2">
-                     {characters != '' ? (
-                         <>
+                    {characters != '' ? (
+                        <>
                             <h5>Hahmon status:</h5>
                             <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
                             <table className="table">
@@ -589,11 +589,11 @@ export default function Home({ URL }) {
                                 </tbody>
                             </table>
                         </>
-                        ) : (
-                            <></>
-                        )
-                        }   
-                    
+                    ) : (
+                        <></>
+                    )
+                    }
+
                 </div >
                 {editStatus != null ? (
                     <>
