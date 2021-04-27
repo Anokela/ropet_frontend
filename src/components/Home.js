@@ -461,8 +461,8 @@ export default function Home({ URL }) {
                         <h5 className="mt-2">Lisää uusi hahmo: </h5>
                         <p>Voit lisätä uusia hahmoja eri peleille, sekä muokata hahmon nimeä sekä pelaajan nimeä. Klikkaamalla Näytä status-nappia saat kyseisen hahmon statuksen näkyville. Hahmon voi myös poistaa kokonaan, jolloin myös hahmon status poistuu.</p>
                         <form action="submit" onSubmit={saveNewCharacter}>
-                            <input placeholder="Syötä uuden hahmon nimi" className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
-                            <input placeholder="Syötä pelaajan nimi" className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
+                            <input placeholder="Syötä uuden hahmon nimi" maxLength='30' className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
+                            <input placeholder="Syötä pelaajan nimi" maxLength='30' className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
                             <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
                             <div className="input-group">
                             </div>
@@ -505,8 +505,8 @@ export default function Home({ URL }) {
                 {gameEdited != null ? (
                     <>
                         <h5>Muokkaa Peliä:</h5>
-                        <input type="text" className="form-control m-2" aria-describedby="pelinimi" value={gameNameUptd} onChange={e => setGameNameUptd(e.target.value)} />
-                        <input type="text" className="form-control m-2" aria-describedby="gmnimi" value={gmUpdated} onChange={e => setGmUpdated(e.target.value)} />
+                        <input type="text" className="form-control m-2" maxLength='30' aria-describedby="pelinimi" value={gameNameUptd} onChange={e => setGameNameUptd(e.target.value)} />
+                        <input type="text" className="form-control m-2" maxLength='30' aria-describedby="gmnimi" value={gmUpdated} onChange={e => setGmUpdated(e.target.value)} />
                         <span className="p-2"><button onClick={() => updateGame(gameEdited.pelinro)} className="btn btn-secondary">Tallenna</button></span>
                         <button onClick={() => setGameEdited(null)} className="btn btn-secondary">Sulje muokkaamatta</button>
                     </>
@@ -554,8 +554,8 @@ export default function Home({ URL }) {
                 {charEdited != null ? (
                     <>
                         <h5>Muokkaa Hahmoa:</h5>
-                        <input type="text" className="form-control m-2" aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
-                        <input type="text" className="form-control m-2" aria-describedby="uuspelajanimi" value={playerUpdated} onChange={e => setPlayerUpdated(e.target.value)} />
+                        <input type="text" className="form-control m-2" maxLength='30' aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
+                        <input type="text" className="form-control m-2" maxLength='30' aria-describedby="uuspelajanimi" value={playerUpdated} onChange={e => setPlayerUpdated(e.target.value)} />
                         <span className="p-2"><button onClick={() => updateCharacter(charEdited.hahmonro)} className="btn btn-secondary">Tallenna</button></span>
                         <button onClick={() => setCharEdited(null)} className="btn btn-secondary">Sulje muokkaamatta</button>
                     </>
