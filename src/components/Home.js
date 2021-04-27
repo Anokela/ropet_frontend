@@ -530,7 +530,7 @@ export default function Home({ URL }) {
                                         <td>{character.pelaaja_nimi}</td>
                                         <td><button onClick={() => editCharacter(character)} className="btn btn-secondary">Muokkaa</button></td>
                                         <td><button onClick={() => deleteCharacter(character.hahmonro)} className="btn btn-secondary">Poista</button></td>
-                                        <td><button onClick={() => Status(character.hahmonro)} className="btn btn-secondary">Näytä status</button></td>
+                                        <td><button onClick={() => Status(character.hahmonro)} className="btn btn-secondary">Status</button></td>
                                     </tr>
                                 ))}
                             </tbody>
