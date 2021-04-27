@@ -10,6 +10,7 @@ export default function Home({ URL }) {
     const [gameNameUptd, setGameNameUptd] = useState('');
     const [gmUpdated, setGmUpdated] = useState('');
     const [characters, setCharacters] = useState([]);
+    const [characterPicked, setCharacterPicked] = useState(null);
     const [newCharName, setNewCharName] = useState('');
     const [newPlayerName, setNewPlayerName] = useState('');
     const [newGameNbr, setNewGameNbr] = useState(null);
@@ -23,6 +24,7 @@ export default function Home({ URL }) {
     const [editedDate, setEditedDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [updateStatus, setUpdateStatus] = useState('');
+    
 
     // Haetaan peli-taulusta kierrossa olevat pelit
     useEffect(() => {
@@ -162,6 +164,7 @@ export default function Home({ URL }) {
 
     // tuodaan rietokannasta tiettyyn peliin tehdyt hahmot
     function Characters(pelinro) {
+        setCharacterPicked(1);
         setCharstatus([]);
         let status = 0;
         fetch(URL + 'characters.php?pelinro=' + pelinro)
@@ -514,8 +517,8 @@ export default function Home({ URL }) {
                     <></>
                 )
                 }
-
-                {characters !== '' ? (
+                <div>
+                {characterPicked != null ? (
                     <>
                         <table className="table mt-3">
 
@@ -541,17 +544,19 @@ export default function Home({ URL }) {
                     <></>
                 )
                 }
+                </div>
+                <div>
 
-                {characters !== '' ? (
+                {characterPicked != null ? (
                     <>
-                        <button className="btn btn-secondary" onClick={() => setCharacters([])}>Sulje lista</button>
+                        <button className="btn btn-secondary" onClick={() => setCharacterPicked(null)}>Sulje lista</button>
                     </>
                 ) : (
                     <></>
                 )
                 }
 
-                {charEdited !== null ? (
+                {charEdited != null ? (
                     <>
                         <h5>Muokkaa Hahmoa:</h5>
                         <input type="text" className="form-control m-2" maxLength='100' aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
@@ -563,9 +568,9 @@ export default function Home({ URL }) {
                     <></>
                 )
                 }
-
+                </div>
                 <div className="mt-2 mb-2">
-                    {characters !== '' ? (
+                    {characterPicked != null ? (
                         <>
                             <h5>Hahmon status:</h5>
                             <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
@@ -595,7 +600,7 @@ export default function Home({ URL }) {
                     }
 
                 </div >
-                {editStatus !== null ? (
+                {editStatus != null ? (
                     <>
                         <div className="mb-2" >
                             <h5>Muokkaa hahmon statusta:</h5>
