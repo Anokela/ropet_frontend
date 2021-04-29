@@ -25,7 +25,7 @@ export default function Home({ URL }) {
     const [endDate, setEndDate] = useState('');
     const [updateStatus, setUpdateStatus] = useState('');
     
-
+    console.log(characterPicked);
     // Haetaan peli-taulusta kierrossa olevat pelit
     useEffect(() => {
         let status = 0;
@@ -164,7 +164,7 @@ export default function Home({ URL }) {
 
     // tuodaan rietokannasta tiettyyn peliin tehdyt hahmot
     function Characters(pelinro) {
-        setCharacterPicked(1);
+        setCharacterPicked(pelinro);
         setCharstatus([]);
         let status = 0;
         fetch(URL + 'characters.php?pelinro=' + pelinro)
