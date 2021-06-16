@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 export default function Home({ URL }) {
     // Luodaan muutujat
-
     const [games, setGames] = useState([]);
     const [newGameName, setNewGameName] = useState('');
     const [newGM, setNewGM] = useState('');
@@ -24,10 +23,27 @@ export default function Home({ URL }) {
     const [editedDate, setEditedDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [updateStatus, setUpdateStatus] = useState('');
-    
-    console.log(characterPicked);
+    const [today, setToday] = useState('');
+
+    function formatDate(today) {
+        let dd = today.getDate();
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd;
+        } 
+        if(mm<10) {
+            mm='0'+mm;
+        } 
+        return yyyy + '-' + mm + '-' + dd;
+    }
     // Haetaan peli-taulusta kierrossa olevat pelit
     useEffect(() => {
+        const date = new Date();
+        const today = formatDate(date);
+        setCreateDate(today);
+        setToday(today);
+        
         let status = 0;
         fetch(URL + 'index.php')
             .then(res => {
@@ -191,7 +207,7 @@ export default function Home({ URL }) {
         e.preventDefault();
 
         if (newCharName === '' || newPlayerName === '' || createDate === '') {
-            alert('Lisää hahmon ja pelaajan nimet, sekä valitse luontipäivä!');
+            alert('Lisää hahmon ja pelaajan nimet!');
             return;
         } else if (newGameNbr === null) {
             alert('Valitse peli!');
@@ -232,7 +248,7 @@ export default function Home({ URL }) {
                 }
             )
     }
-    // Poistetaan hahmo ja funktion alussa poistetaan myös hahm,oon liittyvä status
+    // Poistetaan hahmo ja funktion alussa poistetaan myös hahmoon liittyvä status
     function deleteCharacter(hahmonro) {
         deleteStatus(hahmonro);
         let status = 0;
@@ -306,6 +322,7 @@ export default function Home({ URL }) {
     }
     // Haetaan hahmoon liittyvä status esille
     function Status(hahmonro) {
+        setEditStatus(null);
         let status = 0;
         fetch(URL + 'status.php?hahmonro=' + hahmonro)
             .then(res => {
@@ -398,6 +415,9 @@ export default function Home({ URL }) {
         setEditedDate(charstatus.luontipvm);
         setUpdateStatus(charstatus.tila);
         setEndDate(charstatus.kuolinpvm);
+        if (endDate === '') {
+            setEndDate(today);
+        }
 
     }
     // Tallennetaan muokattu status
@@ -466,7 +486,7 @@ export default function Home({ URL }) {
                         <form action="submit" onSubmit={saveNewCharacter}>
                             <input placeholder="Syötä uuden hahmon nimi" maxLength='100' className="form-control mt-2" id="hahmonimi" type="text" value={newCharName} onChange={e => setNewCharName(e.target.value)} />
                             <input placeholder="Syötä pelaajan nimi" maxLength='100' className="form-control mt-2" id="pelaajanimi" type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} />
-                            <input type="date" className="form-control mt-2" aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
+                            <input type="date" className="form-control mt-2" selected={createDate} aria-describedby="muokattupvm" value={createDate} onChange={e => setCreateDate(e.target.value)} />
                             <div className="input-group">
                             </div>
                             <div className="input-group">
@@ -505,7 +525,7 @@ export default function Home({ URL }) {
                     </table>
                 </div>
 
-                {gameEdited !== null ? (
+                {gameEdited !== null && (
                     <>
                         <h5>Muokkaa Peliä:</h5>
                         <input type="text" className="form-control m-2" maxLength='100' aria-describedby="pelinimi" value={gameNameUptd} onChange={e => setGameNameUptd(e.target.value)} />
@@ -513,12 +533,9 @@ export default function Home({ URL }) {
                         <span className="p-2"><button onClick={() => updateGame(gameEdited.pelinro)} className="btn btn-secondary">Tallenna</button></span>
                         <button onClick={() => setGameEdited(null)} className="btn btn-secondary">Sulje muokkaamatta</button>
                     </>
-                ) : (
-                    <></>
-                )
-                }
+                )}
                 <div>
-                {characterPicked != null ? (
+                {characterPicked != null && (
                     <>
                         <table className="table mt-3">
 
@@ -538,25 +555,18 @@ export default function Home({ URL }) {
                                 ))}
                             </tbody>
                         </table>
-
                     </>
-                ) : (
-                    <></>
-                )
-                }
+                )}
                 </div>
                 <div>
 
-                {characterPicked != null ? (
+                {characterPicked != null && (
                     <>
                         <button className="btn btn-secondary" onClick={() => setCharacterPicked(null)}>Sulje lista</button>
                     </>
-                ) : (
-                    <></>
-                )
-                }
+                )}
 
-                {charEdited != null ? (
+                {charEdited != null && (
                     <>
                         <h5>Muokkaa Hahmoa:</h5>
                         <input type="text" className="form-control m-2" maxLength='100' aria-describedby="uushahmonimi" value={charUpdated} onChange={e => setCharUpdated(e.target.value)} />
@@ -564,16 +574,13 @@ export default function Home({ URL }) {
                         <span className="p-2"><button onClick={() => updateCharacter(charEdited.hahmonro)} className="btn btn-secondary">Tallenna</button></span>
                         <button onClick={() => setCharEdited(null)} className="btn btn-secondary">Sulje muokkaamatta</button>
                     </>
-                ) : (
-                    <></>
-                )
-                }
+                )}
                 </div>
                 <div className="mt-2 mb-2">
-                    {characterPicked != null ? (
+                    {characterPicked != null && (
                         <>
                             <h5>Hahmon status:</h5>
-                            <p>Tässä näet valitun hahmon stauksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
+                            <p>Tässä näet valitun hahmon statuksen. Voit muokata hahmon luontipäivänmäärää ja statuksen kuolleeksi. Tällöin on lisättävä myös hahmon kuolinpäivänmäärä. Status poistuu samalla kuin kyseessäoleva hahmo poistetaan.</p>
                             <table className="table">
                                 <thead>
                                     <th scope="col">Hahmon nimi:</th>
@@ -594,18 +601,15 @@ export default function Home({ URL }) {
                                 </tbody>
                             </table>
                         </>
-                    ) : (
-                        <></>
-                    )
-                    }
+                    )}
 
                 </div >
-                {editStatus != null ? (
+                {editStatus != null && (
                     <>
                         <div className="mb-2" >
                             <h5>Muokkaa hahmon statusta:</h5>
                             <input type="date" className="form-control m-2" aria-describedby="uusipvm" value={editedDate} onChange={e => setEditedDate(e.target.value)} />
-                            <input type="date" className="form-control m-2" aria-describedby="kuolinpvm" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                            <input type="date" className="form-control m-2" aria-describedby="kuolinpvm" selected={endDate} value={endDate} onChange={e => setEndDate(e.target.value)} />
                             <div className="input-group">
                                 <select className="form-control m-2" id="inputGroupSelect03" onChange={e => setUpdateStatus(e.target.value)}>
                                     <option value="Elossa" selected>Vaihda hahmon status</option>
@@ -616,10 +620,7 @@ export default function Home({ URL }) {
                             <button onClick={() => setEditStatus(null)} className="btn btn-secondary">Sulje muokkaamatta</button>
                         </div>
                     </>
-                ) : (
-                    <></>
-                )
-                }
+                )}
 
             </div>
         </div>
